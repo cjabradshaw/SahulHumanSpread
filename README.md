@@ -19,3 +19,6 @@ The R file 'SahulHumanSpreadGithub.SingleScenarioAvg' produces average scenario 
 The two zipped files should be decompressed and their files placed in the same directory as the R code.
 
 The file 'matrixOperators.R' includes necessary functions and is sourced directly within the R code file.
+
+GLOBAL SENSITIVITY ANALYSIS: Also included is the R file 'AusHumanSpreadGSAGithub.R' needed to do the global sensitivity analysis of the underlying parameters on the rate of saturation.
+
