@@ -20,5 +20,7 @@ The two zipped files should be decompressed and their files placed in the same d
 
 The file 'matrixOperators.R' includes necessary functions and is sourced directly within the R code file.
 
+The file 'Archaeology sites & dates used for comparison layers.xlsx' is an Excel file listing all the archaeological specimen dates, type of material, dating metthod, dating technique, and quality rating used in constructing the archaeological comparison layers.
+
 GLOBAL SENSITIVITY ANALYSIS: Also included is the R file 'AusHumanSpreadGSAGithub.R' needed to do the global sensitivity analysis of the underlying parameters on the rate of saturation.
 
