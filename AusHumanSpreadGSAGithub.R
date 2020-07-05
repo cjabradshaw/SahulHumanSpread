@@ -1,7 +1,7 @@
 ###################################################################
 ## Cellular automaton model of human spread through Sahul        ##
 ## SINGLE-SCENARIO GLOBAL SENSITIVITY ANALYSIS                   ##
-## March 2020                                                    ##
+## July 2020                                                     ##
 ## Corey JA Bradshaw, Flinders University                        ##
 ## corey.bradshaw@flinders.edu.au                                ##
 ## http://GlobalEcologyFlinders.com                              ##
@@ -22,11 +22,12 @@
 ## maximum maximum dispersal distance
 ## set in model: D.max.up <- A.up*M^B.up = 69.27189; test uniform sample from 60 to 80
 ##
+## D.max multiplier (D.vec.mult) instead
+## set in model to 1
+## 1 to 5
+##
 ## minimum viable population size threshold
 ## set in model to: min.pop.size = 100; test uniform sample from 50 to 200
-##
-## increase mortality in cells with N < MVP.thresh
-## set in model to: MVP.thresh = 100; test uniform sample from 50 to 200 
 ##
 ## mean (beta resampled) additional mortality expected for cells meeting criteria
 ## set in model to: ltMVP.red = 0.2; test uniform sample from 0.1 to 0.3
@@ -37,8 +38,11 @@
 ## mean mortality during a catastrophe event
 ## set in model to: M.cat = 0.75; test uniform sample from 0.50 to 0.90
 ##
+## modifier of maximum ruggedness effect on movement
+## set in model to: rugmov.mod = 1; test uniform sample from 0.5 to 2.0
+##
 ## mu for beta function indicating proportion of people immigrating/emigrating
-## set in model to: pmov.mean = 1/3; test uniform sample from 1/2 to 3/4 
+## set in model to: pmov.mean = 1/3; test uniform sample from 1/5 to 1/2 
 ##
 ## minimum N/K when pmov.mean emigrates
 ## set in model to: NK.emig.min = 0.3; test uniform sample from 0.2 to 0.4
@@ -46,8 +50,9 @@
 ## maximum N/K when pmov.mean emigrates
 ## set in model to: NK.emig.max = 0.7; test uniform sampel from 0.6 to 0.8
 ##
-## modifier of maximum ruggedness effect on movement
-## set in model to: rugmov.mod = 1; test uniform sample from 0.5 to 2.0
+## increase mortality in cells with N < MVP.thresh
+## set in model to: MVP.thresh = 100; test uniform sample from 50 to 200 
+##
 #####################################################################################
 
 ## remove everything
@@ -75,6 +80,7 @@ library(snow)
 library(foreach)
 library(lhs)
 library(data.table)
+
 
 ## source (update when appropriate)
 source("matrixOperators.r") 
@@ -201,7 +207,6 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
   h.s <- a3*exp(b3*x) # hazard for senescence
   l.s <- exp((a3/b3)*(1 - exp(b3*x))) # survival for senescence
   f.x <- a3*exp(b3*x)*exp((a3/b3)/(1-exp(b3*x))) # probability density function
-  #(log(a3) - log(a1)) / a3
   T.s <- (1/b3) # modal survival time
   
   ## survival
@@ -225,7 +230,6 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
   prim.mean <- round(mean(primiparity.walker),0)
   prim.lo <- round(quantile(primiparity.walker,probs=0.025),0)
   prim.hi <- round(quantile(primiparity.walker,probs=0.975),0)
-  #print(c(prim.lo, prim.mean, prim.hi))
   dat.world13 <- read.table("world2013lifetable.csv", header=T, sep=",")
   fert.world13 <- dat.world13$m.f
   fert.trunc <- fert.world13[1:(longev+1)]
@@ -246,9 +250,7 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
   popmat.orig <- popmat ## save original matrix
   
   ## matrix properties
-  #max.lambda(popmat) ## 1-yr lambda
   r.ann <- max.r(popmat) # rate of population change, 1-yr
-  #R.val(popmat,stages) # reproductive value
   gen.l <- G.val(popmat,stages) # mean generation length
   
   ## for r.max (set Sx=1)
@@ -259,16 +261,12 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
   popmat.max[stages,stages] <- 0 # Sx[stages-1]
   #max.lambda(popmat.max) ## 1-yr lambda
   rm.ann <- max.r(popmat.max) # rate of population change, 1-yr
-
-  #stable.stage.dist(popmat) ## stable stage distribution
-  #R.val(popmat,stages) # reproductive value
   gen.l <- G.val(popmat,stages) # mean generation length
   
   ### population dynamics parameters
   # dynamical model
   # Nt+1 = Nt * exp(rm*(1-(Nt/K))) - (E - I)
   lambda.ann <- exp(r.ann) # annual lambda
-  #r.max.NEE <- 2 * log(lambda.ann^gen.l) # human rmax at generational scale (arbitrarily double)
   lambda.max.ann <- exp(rm.ann)
   rm.max.NEE <- log(lambda.max.ann^gen.l) # human rmax at generational scale (from Sx=1 Leslie matrix)
   
@@ -289,7 +287,6 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
   r.max.up.gen.Cole <- log((exp(r.max.up.Cole))^gen.l)
   r.max.gen.Cole <- log((exp(r.max.Cole))^gen.l)
   r.max.lo.gen.Cole <- log((exp(r.max.lo.Cole))^gen.l)
-  #print(c(r.max.up.gen.Cole, r.max.gen.Cole, r.max.lo.gen.Cole))
   r.max.gen.Cole.sd <- mean(c((r.max.gen.Cole - r.max.lo.gen.Cole)/1.96, (r.max.up.gen.Cole - r.max.gen.Cole)/1.96))
   
   ## dispersal calculations
@@ -304,7 +301,7 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
   M <- 50 # average mass of hunter-gatherer adult
   D.med.lo <- a.lo*M^b.lo
   D.med.up <- a.up*M^b.up
-  D.vec <- 1:round((10*111/2), 0)
+  D.vec <- 1:round((D.vec.mult*10*111/2), 0)
   Pr.Dmed.lo <- exp(-D.vec/D.med.lo) 
   Pr.Dmed.up <- exp(-D.vec/D.med.up)
   
@@ -315,8 +312,8 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
   A.up <- A.mid + 1.17
   B.lo <- B.mid - 0.05
   B.up <- B.mid + 0.05
-  #D.max.lo <- A.lo*M^B.lo
-  #D.max.up <- A.up*M^B.up
+  D.max.lo <- A.lo*M^B.lo
+  D.max.up <- D.vec.mult*A.up*M^B.up
   Pr.Dmx.lo <- exp(-D.vec/D.max.lo) 
   Pr.Dmx.up <- exp(-D.vec/D.max.up)
   
@@ -401,8 +398,8 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
 
     ### choose linear relationship between NPP and K, or 180 deg-rotated parabolic relationship
     #K.NPP <- "linear"
-    #K.NPP <- "rotated parabolic"
-    K.NPP <- "rotated quadratic yield density"
+    K.NPP <- "rotated parabolic"
+    #K.NPP <- "rotated quadratic yield density"
     
     ## K reduction scalar
     #modify.K <- "yes"
@@ -442,7 +439,6 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
     #catastrophe <- "no"
     pop.adjacency <- 0 # to account for 'population' area of influence, in incrementing neighbourhood (1 = immediate neighbours; 2 = 2 cells away in every direction, ...)
     cat.pr <- 0.14/((2*pop.adjacency+1)^2) # probability of catastrophe per generation (Reed et al. 2003) = 0.14, modified by adjacency from above
-    #M.cat <- 0.75 # mean mortality during a catastrophe event
     M.cat.sd <- SD.prop.xbar*M.cat # sd mortality during a catastrophe event
     
     ### are catastrophe's spatially clustered?
@@ -486,9 +482,6 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
     # add this to jpg file names for scenario description
     name.add <- paste(entry.date/1000, "ka.", gen.run, "gen.", ifelse(K.NPP=="rotated quadratic yield density", "rqydK", ifelse(K.NPP=="linear", "linK", "parK")), ".rmax", ifelse(rmax.sel == "low","-lo","-hi"), ifelse(ldp.mult != 1, paste(".ldispmod", ldp.mult, sep=""), ""), ifelse(catastrophe=="yes",".CAT", ".NOCAT"), M.cat*100, ifelse(spatial.cluster=="yes",paste("cl",rpp.scale,sep=""),""), ".neigh-adj", pop.adjacency, ".", "intro", ifelse(second.col=="no",1,2), ifelse(start.row1==1, "nBH", ifelse(start.row1==4, "wBH", "SSh")), ifelse(second.col=="yes", ifelse(second.col=="yes" & start.row2==21,"-SSh", ifelse(start.row2==4, "-wBH", "-nBH")), ""), ifelse(second.col=="yes", paste("-lag", round(lag.l*lag.n/gen.l), "g", sep=""), ""), sep="") 
     
-    ### minimum viable population size to consider a cell 'colonised' (for first-appearance map)
-    #min.pop.size <- 100
-    
     ### start founding population in 1 cell
     N.found.mod <- 1
     N.found.lo <- 1300*N.found.mod; N.found.up <- 1500*N.found.mod
@@ -497,10 +490,8 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
     rm.max.NEE.sd <- SD.prop.xbar * rm.max.NEE
     
     ### dispersal parameters
-    #pmov.mean <- 1/3 # mu for beta function indicating proportion of people immigrating/emigrating
     pmov.sd <- SD.prop.xbar*pmov.mean # sd for beta function
-    #NK.emig.min <- 0.3; NK.emig.max <- 0.7 # N/K when pmov.mean emigrates
-    
+
     # update ruggedness movement function with rugmov.mod
     rugmovmod.func <- function(x) {
       rugmovmod <- as.numeric(coef(fit.expd)[1]) + rugmov.mod*as.numeric(coef(fit.expd)[2]) * (x)^(1/3)
@@ -654,8 +645,6 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
     K.rot.array[2, 52, ] <- NA
     
     # block passage to Tasmania (70 to 67K; 60 to 46K; 43-42K cannot cross)
-    # K.rot.array[80, 68:70, c(71:74, 81:95, 98:99)] <- NA
-    # K.rot.array[79, 74:77, c(71:74, 81:95, 98:99)] <- NA
     K.rot.array[80, 68:77, c(71:101)] <- NA
     K.rot.array[79, 68:77, c(71:101)] <- NA
 
@@ -692,6 +681,7 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
       sll.k = raster(sll.sah.k)
       sll.array[,,k-2] <- raster2matrix(sll.k)
     }
+    # example plots (entry & another)
 
     # rotate matrix -90 & renumber from oldest to youngest
     sll.rot.array <- array(data=NA, c(dim(sll.array)[2], dim(sll.array)[1], lz))
@@ -764,7 +754,7 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
         }
       }
     }
-
+    
     # spatial clustering of catastraphe events controlling parameters
     kappa.mult <- 0.9
     cellslo <- 1
@@ -789,9 +779,6 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
       # set direction codes
       dir.vec <- c("NW", "N", "NE", "W", "E", "SW", "S", "SE")
       
-      # generations to run
-      #gen.run * gen.l # numbers years to run
-      
       # set up N array
       array.N <- Kentry.interp.array * 0
       array.N <- array.N[,,1:(gen.run+1)]
@@ -807,7 +794,8 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
       ## assume same slope between relative NPP and radius movement
       disp.npp.slope <- as.numeric(coefficients((fit.dispkm.rain))[2])
       disp.npp.int <- as.numeric(coefficients((fit.dispkm.rain))[1])
-      disp.npp.max.int <- 1.6646371
+      #disp.npp.max.int <- 1.6646371
+      disp.npp.max.int <- disp.npp.int + (log10(D.max.up) - disp.npp.int)  # move intercept to account for shift from median to max D
       
       i.rows <- dim(array.N[,,1])[1]
       j.cols <- dim(array.N[,,1])[2]
@@ -1004,6 +992,7 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
         # apply dynamical model after movements from previous step
         if (rmax.sel == "low") {
           array.N[,,t+1] <- Nproj.func(Nt=array.N[,,t], rm=rnorm(1, rm.max.NEE, rm.max.NEE.sd), K=Kentry.interp.pois)
+          #array.N[,,t+1] <- Nproj.func(Nt=array.N[,,t], rm=stoch.beta.func(r.max.NEE, r.max.NEE.sd), K=Kentry.interp.pois)
         }
         if (rmax.sel == "high") {
           array.N[,,t+1] <- Nproj.func(Nt=array.N[,,t], rm=log((exp(10^(rnorm(1, a.Cole, a.sd.Cole) + rnorm(1, b.Cole, b.sd.Cole) * log10(alpha.Ab))))^gen.l), K=Kentry.interp.pois)
@@ -1022,6 +1011,7 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
             lrowcol.mn <- round(mean(length(rows.ng0),length(cols.ng0)), 0)
             mat.N.it <- array.N[,,t+1]
             Y <- rThomas(round(kappaP.func(length(which(array.N[,,t+1] > 0, arr.ind=F)))*lrowcol.mn, 0), rpp.scale, round(rpp.mu.mult*lrowcol.mn,0), drop=T, nsim = 1)
+            #Y <- rThomas(round(kappa.mult*lrowcol.mn, 0), rpp.scale, round(rpp.mu.mult*lrowcol.mn,0), drop=T, nsim = 1)
             Yrows.calc <- round(Y$y * length(rows.ng0), 0)
             Yrows <- Yrows.calc + min(rows.ng0) - 1
             Yrows <- ifelse((Yrows.calc + min(rows.ng0) - 1) == 0, 1, (Yrows.calc + min(rows.ng0) - 1)) 
@@ -1032,6 +1022,7 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
             mat.N.it[Yrowscols] <- round((stoch.n.beta.func(length(mat.N.it[Yrowscols]), M.cat, M.cat.sd)) * (mat.N.it[Yrowscols]), 0)
             mat.noNA.g0.spat <- which(mat.N.it %in% na.omit(mat.N.it[Yrowscols])[na.omit(mat.N.it[Yrowscols]) > 0])
             cat.pr.est[t] <- length(mat.noNA.g0.spat)/length(mat.noNA.g0)
+            #cat.pr.mx <- stoch.beta.func(cat.pr, cat.pr*SD.prop.xbar)
             cat.pr.mx <- rnorm(1, cat.pr, cat.pr*SD.prop.xbar)
             if (cat.pr.est[t] > cat.pr.mx & length(mat.noNA.g0.spat) > 0 & length(mat.noNA.g0) > 1 & spatial.cluster=="yes") {
               mat.noNA.g0.spat <- sample(mat.noNA.g0.spat, round(cat.pr.mx * length(mat.noNA.g0)), replace=F)
@@ -1065,7 +1056,8 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
         N.vec[t+1] <- sum(array.N[,,t+1], na.rm=T)
         poparea.vec[t+1] <- length(which(array.N[,,t+1] > 0)) * cell.area/1000
         pc.complete[t+1] <- (round(length(which(array.N[,,t+1] > 0, arr.ind=F)) / length(which(is.na(array.N[,,t+1]) != T, arr.ind=F)) * 99, 2))
-
+        #print(paste("gen = ", t, "; ", round((t/gen.run*100), 1), "% compl; ", pc.complete[t+1], "% cells occ; ", round(as.numeric((proc.time() - proc.start)[3])/60, 1), " min elapsed", "; yrs proj = ", round(t*gen.l,0), "; ", "YBP = ", entry.date-round(t*gen.l,0), "; ", "Ntot = ", format(N.vec[t+1], big.mark=","), "; Pr(cat) = ", round(cat.pr.est[t], 3), sep=""))
+        
       } # end t loop
       
     ## calculate number of generations when percentage of Sahul saturation ≥ 97%
@@ -1088,18 +1080,18 @@ ahspread_sim <- function(input, dir.nm, rowNum) {
 
 ## parameter ranges
 ranges <- list()
-ranges$r.max.NEE <- c(0.18, 0.22)
-ranges$D.max.lo <- c(15, 30)
-ranges$D.max.up <- c(60, 80)
-ranges$min.pop.size <- c(50, 200)
-ranges$MVP.thresh <- c(50, 200)
-ranges$ltMVP.red <- c(0.1, 0.3)
-ranges$watmovresist <- c(1.5, 4)
-ranges$M.cat <- c(0.50, 0.90)
-ranges$rugmov.mod <- c(0.5, 2.0)
-ranges$pmov.mean <- c(0.20, 0.5)
-ranges$NK.emig.min <- c(0.2, 0.4)
-ranges$NK.emig.max <- c(0.6, 0.8)
+ranges$r.max.NEE <- c(0.2081606-(0.5*0.2081606), 0.2081606+(0.5*0.2081606))
+ranges$D.max.lo <- c(22.37669-(0.5*22.37669), 22.37669+(0.5*22.37669))
+ranges$D.vec.mult <- c(1, 5)
+ranges$min.pop.size <- c(100-(0.5*100), 100+(0.5*100)) # lower upper range
+ranges$MVP.thresh <- c(100-(0.5*100), 100+(0.5*100)) # lower upper range
+ranges$ltMVP.red <- c(0.2-(0.5*0.2), 0.2+(0.5*0.2)) # unchanged
+ranges$watmovresist <- c(3-(0.5*3), 3+(0.5*3))
+ranges$M.cat <- c(0.75-(0.5*0.75), 0.99) # can't have mort > 1, so set to 0.99 (+32% for upper limit)
+ranges$rugmov.mod <- c(1-(0.5*1), 1+(0.5*1)) # lower limit unchanged; upper limit reduced
+ranges$pmov.mean <- c((1/3)-(0.5*(1/3)), (1/3)+(0.5*(1/3))) # upper limit unchanged
+ranges$NK.emig.min <- c(0.3-(0.5*0.3), 0.3+(0.5*0.3))
+ranges$NK.emig.max <- c(0.7-(0.5*0.7), 0.99) # upper limit set to 0.99 (+41.4%)
 
 ## create hypercube
 nSamples <- 1000
@@ -1116,7 +1108,8 @@ for (j in 1:ncol(lh)) {
 lh$iter <- 1
 
 ## folder for saving the results of each row
-dir.nm <- 'GSA'
+## we could just store in memory, but then if something breaks we will lose the lot
+dir.nm <- 'GSA50kSparatest5Dmax50pc'
 dir.create(dir.nm)
 
 ## run in parallel
@@ -1132,14 +1125,15 @@ tail(dat)
 sum(is.na(dat$gen97complete))
 
 
-#########
-## BRT ##
-#########
+######################################
+## Boosted Regression Tree Emulator ##
+######################################
+
 dat.nona <- data.frame(na.omit(dat[!is.infinite(rowSums(dat)),]))
 dim(dat.nona)[1]
 library(dismo)
 library(gbm)
-brt.fit <- gbm.step(dat.nona, gbm.x = attr(dat.nona, "names")[1:12], gbm.y = attr(dat.nona, "names")[14], family="gaussian", tolerance = 0.0001, learning.rate = 0.003, bag.fraction=0.75, tree.complexity = 2)
+brt.fit <- gbm.step(dat.nona, gbm.x = attr(dat.nona, "names")[1:12], gbm.y = attr(dat.nona, "names")[14], family="gaussian", max.trees=100000, tolerance = 0.0001, learning.rate = 0.008, bag.fraction=0.75, tree.complexity = 2)
 summary(brt.fit)
 dim(dat.nona)[1]
 D2 <- 100 * (brt.fit$cv.statistics$deviance.mean - brt.fit$self.statistics$mean.resid) / brt.fit$cv.statistics$deviance.mean
