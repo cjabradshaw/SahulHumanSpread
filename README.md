@@ -3,7 +3,7 @@ Code and data files necessary for reproducing cellular-automaton model of human 
 
 This code and these data reproduce the results in the following paper (currently in review):
 
-BRADSHAW, CJA, K NORMAN, S ULM, AN WILLIAMS, C CLARKSON, J CHADŒUF, SC LIN, Z JACOBS, RG ROBERTS, MI BIRD, LS WEYRICH, S HABERLE, S O’CONNOR, B LLAMAS, TJ COHEN, T FRIEDRICH, P VETH, M LEAVESLEY, F SALTRÉ. In review. Rapid early peopling of Late Pleistocene Sahul. Nature Communications
+BRADSHAW, CJA, K NORMAN, S ULM, AN WILLIAMS, C CLARKSON, J CHADŒUF, SC LIN, Z JACOBS, RG ROBERTS, MI BIRD, LS WEYRICH, S HABERLE, S O’CONNOR, B LLAMAS, TJ COHEN, T FRIEDRICH, P VETH, M LEAVESLEY, F SALTRÉ. In review. Rapid peopling of Late Pleistocene Sahul. Nature Communications
 
 Contact:
 Professor Corey J. A. Bradshaw
