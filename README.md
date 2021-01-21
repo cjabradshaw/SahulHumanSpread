@@ -5,7 +5,7 @@ This code and these data reproduce the results in the following paper (revision 
 
 BRADSHAW, CJA, K NORMAN, S ULM, AN WILLIAMS, C CLARKSON, J CHADŒUF, SC LIN, Z JACOBS, RG ROBERTS, MI BIRD, LS WEYRICH, S HABERLE, S O’CONNOR, B LLAMAS, TJ COHEN, T FRIEDRICH, P VETH, M LEAVESLEY, F SALTRÉ. 2021. Stochastic models support rapid peopling of Late Pleistocene Sahul. Nature Communications. In press
 
-https://zenodo.org/badge/DOI/10.5281/zenodo.4453767.svg
+<img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4453767.svg">
 
 Contact:
 Professor Corey J. A. Bradshaw
