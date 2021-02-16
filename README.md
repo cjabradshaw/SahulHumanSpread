@@ -24,7 +24,7 @@ The file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/m
 
 The file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/Archaeology%20sites%20%26%20dates%20used%20for%20comparison%20layers.xlsx">Archaeology sites & dates used for comparison layers.xlsx</a>' is an Excel file listing all the archaeological specimen dates, type of material, dating metthod, dating technique, and quality rating used in constructing the archaeological comparison layers. 
 
-NOTE: The code to reproduce these spatial layers can be sourced from https://github.com/FredSaltre/SEOZ_megafauna_extirpation (associated with the paper: Saltré, F, J Chadoeuf, KJ Peters, MC McDowell, T Friedrich, A Timmermann, S Ulm, CJA Bradshaw. 2019. <a href="http://doi.org/10.1038/s41467-019-13277-0">Climate-human interaction associated with southeast Australian megafauna-extinction patterns</a>. <em>Nature Communications</a> 10: 5311. doi:10.1038/s41467-019-13277-0)
+NOTE: The code to reproduce these spatial layers can be sourced from https://github.com/FredSaltre/SEOZ_megafauna_extirpation (associated with the paper: Saltré, F, J Chadoeuf, KJ Peters, MC McDowell, T Friedrich, A Timmermann, S Ulm, CJA Bradshaw. 2019. <a href="http://doi.org/10.1038/s41467-019-13277-0">Climate-human interaction associated with southeast Australian megafauna-extinction patterns</a>. <em>Nature Communications</em> 10: 5311. doi:10.1038/s41467-019-13277-0)
 
 <strong>GLOBAL SENSITIVITY ANALYSIS</strong>: Also included is the R file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/AusHumanSpreadGSAGithub.R">AusHumanSpreadGSAGithub.R</a>' needed to do the global sensitivity analysis of the underlying parameters on the rate of saturation.
 
