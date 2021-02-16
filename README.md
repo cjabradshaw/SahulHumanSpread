@@ -4,7 +4,7 @@ Code and data files necessary for reproducing cellular-automaton model of human 
 
 This code and these data reproduce the results in the following paper (revision currently in review):
 
-BRADSHAW, CJA, K NORMAN, S ULM, AN WILLIAMS, C CLARKSON, J CHADŒUF, SC LIN, Z JACOBS, RG ROBERTS, MI BIRD, LS WEYRICH, S HABERLE, S O’CONNOR, B LLAMAS, TJ COHEN, T FRIEDRICH, P VETH, M LEAVESLEY, F SALTRÉ. 2021. <a href="http://doi.org/10.1038/s41467-021-21551-3">Stochastic models support rapid peopling of Late Pleistocene Sahul</a>. <em>Nature Communications</em>. doi:10.1038/s41467-021-21551-3
+BRADSHAW, CJA, K NORMAN, S ULM, AN WILLIAMS, C CLARKSON, J CHADŒUF, SC LIN, Z JACOBS, RG ROBERTS, MI BIRD, LS WEYRICH, S HABERLE, S O’CONNOR, B LLAMAS, TJ COHEN, T FRIEDRICH, P VETH, M LEAVESLEY, F SALTRÉ. 2021. <a href="http://doi.org/10.1038/s41467-021-21551-3">Stochastic models support rapid peopling of Late Pleistocene Sahul</a> <em>Nature Communications</em>. doi:10.1038/s41467-021-21551-3
 
 Contact:
 Professor Corey J. A. Bradshaw
