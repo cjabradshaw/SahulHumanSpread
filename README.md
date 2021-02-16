@@ -20,7 +20,7 @@ The R file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master
 
 The two zipped files should be decompressed and their files placed in the same directory as the R code.
 
-The file 'matrixOperators.R' includes necessary functions and is sourced directly within the R code file.
+The file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/matrixOperators.r">matrixOperators.R</a>' includes necessary functions and is sourced directly within the R code file.
 
 The file 'Archaeology sites & dates used for comparison layers.xlsx' is an Excel file listing all the archaeological specimen dates, type of material, dating metthod, dating technique, and quality rating used in constructing the archaeological comparison layers. NOTE: The code to reproduce these spatial layers can be sourced from https://github.com/FredSaltre/SEOZ_megafauna_extirpation (associated with the paper: Saltré, F, J Chadoeuf, KJ Peters, MC McDowell, T Friedrich, A Timmermann, S Ulm, CJA Bradshaw. 2019. Climate-human interaction associated with southeast Australian megafauna-extinction patterns. Nature Communications 10: 5311. doi:10.1038/s41467-019-13277-0)
 
