@@ -1,6 +1,7 @@
 # SahulHumanSpread
-Code and data files necessary for reproducing cellular-automaton model of human spread across Sahul <a href="http://doi.org/10.5281/zenodo.4453767"><img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4453767.svg"></a>
-
+Code and data files necessary for reproducing cellular-automaton model of human spread across Sahul <a href="http://doi.org/10.5281/zenodo.4453767">
+  
+  <img src="https://zenodo.org/badge/DOI/10.5281/zenodo.4453767.svg"></a>
 
 This code and these data reproduce the results in the following paper:
 
