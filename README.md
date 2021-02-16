@@ -24,5 +24,5 @@ The file 'matrixOperators.R' includes necessary functions and is sourced directl
 
 The file 'Archaeology sites & dates used for comparison layers.xlsx' is an Excel file listing all the archaeological specimen dates, type of material, dating metthod, dating technique, and quality rating used in constructing the archaeological comparison layers. NOTE: The code to reproduce these spatial layers can be sourced from https://github.com/FredSaltre/SEOZ_megafauna_extirpation (associated with the paper: Saltré, F, J Chadoeuf, KJ Peters, MC McDowell, T Friedrich, A Timmermann, S Ulm, CJA Bradshaw. 2019. Climate-human interaction associated with southeast Australian megafauna-extinction patterns. Nature Communications 10: 5311. doi:10.1038/s41467-019-13277-0)
 
-GLOBAL SENSITIVITY ANALYSIS: Also included is the R file 'AusHumanSpreadGSAGithub.R' needed to do the global sensitivity analysis of the underlying parameters on the rate of saturation.
+<strong>GLOBAL SENSITIVITY ANALYSIS</strong>: Also included is the R file 'AusHumanSpreadGSAGithub.R' needed to do the global sensitivity analysis of the underlying parameters on the rate of saturation.
 
