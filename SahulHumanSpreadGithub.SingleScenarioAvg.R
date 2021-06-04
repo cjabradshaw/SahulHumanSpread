@@ -812,8 +812,14 @@ max.lam.decl <- exp(max.r.decl)
       print(k-2)
     }
     # just use matrix
-    d2w.mat <- t(as.matrix(d2w.array[,,1]))
-    
+    d2w1.mat <- (as.matrix(d2w.array[,,1]))
+
+    # rotate matrix -90
+    d2w.mat <- matrix(data=NA, nrow=dim(d2w1.mat)[2], ncol=dim(d2w1.mat)[1])
+    d2w.mat <- apply(t(d2w1.mat),2,rev)
+    range(d2w.mat, na.rm=T)
+    image(rot.mat(d2w.mat), col=rev(grey(1:100/100)))
+
     # transform ruggedness file to array
     lz <- dim(rug.sah)[2] - 2
     rug.array <- array(data=NA, dim=c(dim(raster2matrix(npp.entry)),lz))
