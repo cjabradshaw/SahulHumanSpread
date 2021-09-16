@@ -14,17 +14,17 @@ College of Science and Engineering, Flinders University
 
 Adelaide, South Australia
 
-e-mail: corey.bradshaw@flinders.edu.au; URL: http://GlobalEcologyFlinders.com
+  e-mail: <a href="mailto:corey.bradshaw@flinders.edu.au">corey.bradshaw@flinders.edu.au</a>; URL: http://GlobalEcologyFlinders.com
 
 The R file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/SahulHumanSpreadGithub.SingleScenarioAvg.R">SahulHumanSpreadGithub.SingleScenarioAvg.R</a>' produces average scenario outputs over a set number of iterations. The user can choose the particulars of the scenario (e.g., underlying <em>K</em>~NPP relationship, entry time(s), entry point(s), spatial clustering, stochastic variances, minimum viable population thresholds, etc.)
 
 The two zipped files should be decompressed and their files placed in the same directory as the R code.
 
-The file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/matrixOperators.r">matrixOperators.R</a>' includes necessary functions and is sourced directly within the R code file.
+The file <a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/matrixOperators.r"><code>matrixOperators.R</code></a> includes necessary functions and is sourced directly within the R code file.
 
 The file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/Archaeology%20sites%20%26%20dates%20used%20for%20comparison%20layers.xlsx">Archaeology sites & dates used for comparison layers.xlsx</a>' is an Excel file listing all the archaeological specimen dates, type of material, dating metthod, dating technique, and quality rating used in constructing the archaeological comparison layers. 
 
-NOTE: The code to reproduce these spatial layers can be sourced from https://github.com/FredSaltre/SEOZ_megafauna_extirpation (associated with the paper: Saltré, F, J Chadoeuf, KJ Peters, MC McDowell, T Friedrich, A Timmermann, S Ulm, CJA Bradshaw. 2019. <a href="http://doi.org/10.1038/s41467-019-13277-0">Climate-human interaction associated with southeast Australian megafauna-extinction patterns</a>. <em>Nature Communications</em> 10: 5311. doi:10.1038/s41467-019-13277-0)
+NOTE: The code to reproduce these spatial layers can be sourced from <a href="https://github.com/FredSaltre/SEOZ_megafauna_extirpation">this Github repository</a> (associated with the paper: Saltré, F, J Chadoeuf, KJ Peters, MC McDowell, T Friedrich, A Timmermann, S Ulm, CJA Bradshaw. 2019. <a href="http://doi.org/10.1038/s41467-019-13277-0">Climate-human interaction associated with southeast Australian megafauna-extinction patterns</a>. <em>Nature Communications</em> 10: 5311. doi:10.1038/s41467-019-13277-0)
 
-<strong>GLOBAL SENSITIVITY ANALYSIS</strong>: Also included is the R file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/AusHumanSpreadGSAGithub.R">AusHumanSpreadGSAGithub.R</a>' needed to do the global sensitivity analysis of the underlying parameters on the rate of saturation.
+<strong>GLOBAL SENSITIVITY ANALYSIS</strong>: Also included is the R file <a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/AusHumanSpreadGSAGithub.R"><code>AusHumanSpreadGSAGithub.R</code></a> needed to do the global sensitivity analysis of the underlying parameters on the rate of saturation.
 
