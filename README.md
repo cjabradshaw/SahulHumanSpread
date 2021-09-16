@@ -16,7 +16,7 @@ Adelaide, South Australia
 
   e-mail: <a href="mailto:corey.bradshaw@flinders.edu.au">corey.bradshaw@flinders.edu.au</a>; URL: http://GlobalEcologyFlinders.com
 
-The R file '<a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/SahulHumanSpreadGithub.SingleScenarioAvg.R">SahulHumanSpreadGithub.SingleScenarioAvg.R</a>' produces average scenario outputs over a set number of iterations. The user can choose the particulars of the scenario (e.g., underlying <em>K</em>~NPP relationship, entry time(s), entry point(s), spatial clustering, stochastic variances, minimum viable population thresholds, etc.)
+The R file <a href="https://github.com/cjabradshaw/SahulHumanSpread/blob/master/SahulHumanSpreadGithub.SingleScenarioAvg.R"><code>SahulHumanSpreadGithub.SingleScenarioAvg.R</code></a> produces average scenario outputs over a set number of iterations. The user can choose the particulars of the scenario (e.g., underlying <em>K</em>~NPP relationship, entry time(s), entry point(s), spatial clustering, stochastic variances, minimum viable population thresholds, etc.)
 
 The two zipped files should be decompressed and their files placed in the same directory as the R code.
 
