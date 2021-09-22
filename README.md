@@ -1,5 +1,5 @@
 # Sahul Human Spread
-<img align="right" src="ausdots.png" alt="thylacine" width="200" style="margin-top: 20px">
+<img align="right" src="ausdots.png" alt="Australia cellular" width="200" style="margin-top: 20px">
 
 Code and data files necessary for reproducing cellular-automaton model of human spread across Sahul <a href="http://doi.org/10.5281/zenodo.4453767">
   
